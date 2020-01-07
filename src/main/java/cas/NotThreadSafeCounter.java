@@ -1,6 +1,6 @@
 package cas;
 
-public class X {
+public class NotThreadSafeCounter {
     private int value = 0;
 
     int getValue() {

@@ -7,11 +7,11 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
-class CasCounterTest extends Specification {
+class NotThreadSafeCounterTest extends Specification {
 
-    def "Increment"() {
+    def "Increment v2"() {
         given:
-        CasCounter cas = new CasCounter()
+        NotThreadSafeCounter cas = new NotThreadSafeCounter()
         CountDownLatch latch = new CountDownLatch(5)
         Runnable task = {
             IntStream.range(0, 1000).forEach { ignore -> cas.increment() }
@@ -30,6 +30,6 @@ class CasCounterTest extends Specification {
         latch.await()
 
         then:
-        cas.getValue() == 5000
+        cas.getValue() != 5000
     }
 }
