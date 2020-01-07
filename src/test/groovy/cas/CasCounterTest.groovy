@@ -9,25 +9,25 @@ import java.util.stream.IntStream
 
 class CasCounterTest extends Specification {
 
-    def "Increment"() {
+    def "increment"() {
         given:
         CasCounter cas = new CasCounter()
         CountDownLatch latch = new CountDownLatch(5)
-        Runnable task = {
+        Runnable increment1000x = {
             IntStream.range(0, 1000).forEach { ignore -> cas.increment() }
             latch.countDown()
         }
         ExecutorService es = Executors.newFixedThreadPool(5)
 
         when:
-        es.submit(task)
-        es.submit(task)
-        es.submit(task)
-        es.submit(task)
-        es.submit(task)
-        es.shutdownNow()
+        es.submit(increment1000x)
+        es.submit(increment1000x)
+        es.submit(increment1000x)
+        es.submit(increment1000x)
+        es.submit(increment1000x)
         and:
         latch.await()
+        es.shutdownNow()
 
         then:
         cas.getValue() == 5000
