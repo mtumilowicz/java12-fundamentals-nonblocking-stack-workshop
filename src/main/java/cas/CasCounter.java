@@ -1,8 +1,5 @@
 package cas;
 
-import java.util.concurrent.*;
-import java.util.stream.IntStream;
-
 public class CasCounter {
     private final SimulatedCAS value = new SimulatedCAS();
 

@@ -3,10 +3,10 @@ package stack;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ConcurrentStack<E> {
-    AtomicReference<Node<E>> top = new AtomicReference<Node<E>>();
+    AtomicReference<Node<E>> top = new AtomicReference<>();
 
     public void push(E item) {
-        Node<E> newHead = new Node<E>(item);
+        Node<E> newHead = new Node<>(item);
         Node<E> oldHead;
         do {
             oldHead = top.get();
