@@ -47,9 +47,9 @@ whether it wants to try again, take some other recovery action, or do nothing.
     work you were planning to do.
 
 * The typical pattern for using CAS is 
-    * first to read the value A from V, 
-    * derive the new value B from A, 
-    * and then use CAS to atomically change V from A to B 
+    1. first to read the value A from V, 
+    1. derive the new value B from A, 
+    1. and then use CAS to atomically change V from A to B 
         * so long as no other thread has changed V to another value in the meantime
 
 # summary
@@ -71,26 +71,12 @@ provided by the underlying hardware.
     instruction(s); 
     * in the worst case, if a CAS-like instruction is not available the JVM uses a spin lock.
 
-* The compare-and-swap (CAS) instruction is an uninterruptible instruction 
-that reads a memory location, compares the read value with an expected 
-value, and stores a new value in the memory location when the read value 
-matches the expected value. Otherwise, nothing is done. The actual 
-microprocessor instruction may differ somewhat (e.g., return true if 
-CAS succeeded or false otherwise instead of the read value).
-
-1. Read value v from address X.
-1. Perform a multistep computation to derive a new value v2.
-1. Use CAS to change the value of X from v to v2. CAS succeeds 
-when X's value hasn't changed while performing these steps.
-
-**CAS offers better performance (and scalability) over synchronization.**
-
-Java's traditional synchronization mechanism (`synchronized` keyword) 
+* Java's traditional synchronization mechanism (`synchronized` keyword) 
 impacts hardware utilization and scalability:
-1. Multiple threads constantly competing for a lock = 
-frequent context switching (can take many processor cycles). 
-1. When a thread holding a lock is delayed (e.g., because of a scheduling 
-delay), no thread that requires that lock makes any progress.
+    * Multiple threads constantly competing for a lock = 
+    frequent context switching (can take many processor cycles). 
+    * When a thread holding a lock is delayed (e.g., because of a scheduling 
+    delay), no thread that requires that lock makes any progress.
 
 ## digression
 note that before java 8, to perform some function on atomic value (for example - double it) 
