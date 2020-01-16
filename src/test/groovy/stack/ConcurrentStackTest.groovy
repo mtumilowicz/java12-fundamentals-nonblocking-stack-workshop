@@ -55,38 +55,51 @@ class ConcurrentStackTest extends Specification {
         i == 5000
     }
 
-    def "pop is thread safe"() {
+    def 'pop is thread safe'() {
         given:
         ConcurrentStack<Integer> cas = new ConcurrentStack<>()
+
         and: 'stack is empty'
         !cas.pop()
-        and:
+
+        and: 'latch to signalize end'
         CountDownLatch latch = new CountDownLatch(5)
+
+        and: 'XXXXXXXXXXXXXXXXx'
         ConcurrentSkipListSet<Integer> concurrentSet = new ConcurrentSkipListSet<>()
+
+        and: 'task that pops 1000 elements from the stack and push to the concurrentSet'
         Runnable task2 = {
             IntStream.range(0, 1000).forEach { ignore -> concurrentSet.add(cas.pop()) }
             latch.countDown()
         }
+
+        and: 'executor service to run tasks'
         ExecutorService es = Executors.newCachedThreadPool()
 
+        and: 'prepare stack for draining by adding 5000 numbers to it'
         IntStream.range(0, 5000).forEach { cas.push(it) }
 
-        when:
+        when: 'run concurrently'
         es.submit(task2)
         es.submit(task2)
         es.submit(task2)
         es.submit(task2)
         es.submit(task2)
-        and:
+
+        and: 'wait for all tasks to end'
         latch.await()
+
+        and: 'shutdown executor service'
         es.shutdownNow()
 
-        then:
+        then: 'stack is empty again'
         cas.pop() == null
-        and:
+
+        and: 'concurrentSet has all the elements from the stack'
         def sorted = concurrentSet.sort()
-        sorted.min() == 0
-        sorted.max() == 4999
+        sorted.removeAll(0..4999)
+        sorted.size() == 0
     }
 
 }
