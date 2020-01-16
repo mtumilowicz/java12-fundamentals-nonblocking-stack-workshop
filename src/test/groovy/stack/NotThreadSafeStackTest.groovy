@@ -55,7 +55,7 @@ class NotThreadSafeStackTest extends Specification {
         and: 'latch to signalize end'
         CountDownLatch latch = new CountDownLatch(5)
 
-        and: 'task that pops 1000 elements from the stack and push to the concurrentSet'
+        and: 'task that polls 1000 elements from the stack'
         Runnable task = {
             try {
                 IntStream.range(0, 1000).forEach { ignore -> stack.poll() }
@@ -83,7 +83,7 @@ class NotThreadSafeStackTest extends Specification {
         and: 'shutdown executor service'
         es.shutdownNow()
 
-        then: 'stack is NOT empty again'
+        then: 'unfortunately implementation is NOT thread safe'
         stack.size() != 0
     }
 }
