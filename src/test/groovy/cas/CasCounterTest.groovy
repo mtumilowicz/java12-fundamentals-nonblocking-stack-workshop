@@ -9,7 +9,7 @@ import java.util.stream.IntStream
 
 class CasCounterTest extends Specification {
 
-    def "increment"() {
+    def 'increment is thread safe'() {
         given:
         CasCounter cas = new CasCounter()
         CountDownLatch latch = new CountDownLatch(5)
@@ -17,9 +17,9 @@ class CasCounterTest extends Specification {
             IntStream.range(0, 1000).forEach { ignore -> cas.increment() }
             latch.countDown()
         }
-        ExecutorService es = Executors.newFixedThreadPool(5)
+        ExecutorService es = Executors.newCachedThreadPool()
 
-        when:
+        when: 'run concurrently'
         es.submit(increment1000x)
         es.submit(increment1000x)
         es.submit(increment1000x)

@@ -9,7 +9,7 @@ import java.util.stream.IntStream
 
 class NotThreadSafeCounterTest extends Specification {
 
-    def 'increment'() {
+    def 'increment is not thread safe'() {
         given:
         NotThreadSafeCounter cas = new NotThreadSafeCounter()
         CountDownLatch latch = new CountDownLatch(5)
@@ -17,9 +17,9 @@ class NotThreadSafeCounterTest extends Specification {
             IntStream.range(0, 1000).forEach { ignore -> cas.increment() }
             latch.countDown()
         }
-        ExecutorService es = Executors.newFixedThreadPool(5)
+        ExecutorService es = Executors.newCachedThreadPool()
 
-        when:
+        when: 'run concurrently'
         es.submit(increment1000x)
         es.submit(increment1000x)
         es.submit(increment1000x)
