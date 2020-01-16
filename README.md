@@ -9,6 +9,11 @@
     * https://en.wikipedia.org/wiki/Treiber_stack
     
 # preface
+* the main goal of this workshops is to introduce compare-and-swap and show how it could be used in practice 
+(by implementing non-blocking and concurrent stack)
+* `answers` with correctly implemented `workshop` tasks are in `answers` package
+
+# introduction
 * exclusive locking (`synchronized` keyword) is a pessimistic technique
     * it asks you to first guarantee that no other thread will interfere
 * the optimistic approach
@@ -20,8 +25,6 @@
 * nearly every modern processor has some form of atomic read-modify-write instruction, 
     * compare-and-swap
     * load-linked/store-conditional
-    
-# introduction
 * CAS has three operands
     * MEM: a memory location on which to operate 
     * OLD: the expected old value, 
