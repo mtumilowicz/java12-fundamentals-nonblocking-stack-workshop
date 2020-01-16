@@ -6,7 +6,8 @@
     * https://www.amazon.com/Java-Concurrency-Practice-Brian-Goetz/dp/0321349601
     * [WJUG #136 - java.util.concurrent.atomic - Tomasz Nurkiewicz](https://www.youtube.com/watch?v=5qjFq0Pj5MU)
     * https://howtodoinjava.com/java/multi-threading/compare-and-swap-cas-algorithm/
-
+    * https://en.wikipedia.org/wiki/Treiber_stack
+    
 # preface
 * exclusive locking (`synchronized` keyword) is a pessimistic technique
     * it asks you to first guarantee that no other thread will interfere
@@ -46,6 +47,12 @@ using CAS - only one wins
             * doing nothing may be a perfectly sensible - a failed CAS means that someone else already did the 
             work you were planning to do
 
+# concurrent stack
+* basic principle: for the algorithm is to only add something new to the stack once you know the item you are trying 
+to add is the only thing that has been added since you began the operation
+* compare-and-swap
+* https://en.wikipedia.org/wiki/ABA_problem
+
 # summary
 * the language syntax for locking may be compact, but the work done by the
 JVM and OS to manage locks is not
@@ -70,7 +77,7 @@ provided by the underlying hardware
     * the runtime inlines them into the appropriate machine instructions 
     * if a CAS-like instruction is not available the JVM uses a spin lock
 
-## digression
+# digression
 note that before java 8, to perform some function on atomic value (for example - double it) 
 we have to use `compareAndSet` in an do-while loop
 ```
