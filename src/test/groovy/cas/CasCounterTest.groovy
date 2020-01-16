@@ -11,12 +11,21 @@ class CasCounterTest extends Specification {
 
     def 'increment is thread safe'() {
         given:
-        CasCounter cas = new CasCounter()
+        CasCounter counter = new CasCounter()
+
+        and: 'counter is 0'
+        counter.getValue() == 0
+
+        and: 'latch to signalize end'
         CountDownLatch latch = new CountDownLatch(5)
+
+        and: 'task that increments counter 1000 times'
         Runnable increment1000x = {
-            IntStream.range(0, 1000).forEach { ignore -> cas.increment() }
+            IntStream.range(0, 1000).forEach { ignore -> counter.increment() }
             latch.countDown()
         }
+
+        and: 'executor service to run tasks'
         ExecutorService es = Executors.newCachedThreadPool()
 
         when: 'run concurrently'
@@ -25,11 +34,14 @@ class CasCounterTest extends Specification {
         es.submit(increment1000x)
         es.submit(increment1000x)
         es.submit(increment1000x)
-        and:
+
+        and: 'wait for all tasks to end'
         latch.await()
+
+        and: 'shutdown executor service'
         es.shutdownNow()
 
-        then:
-        cas.getValue() == 5000
+        then: '5 x 1000 = 5000'
+        counter.getValue() == 5000
     }
 }
