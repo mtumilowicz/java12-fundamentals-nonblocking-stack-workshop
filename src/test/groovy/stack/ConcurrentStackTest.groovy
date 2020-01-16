@@ -13,14 +13,20 @@ class ConcurrentStackTest extends Specification {
     def 'push is thread safe'() {
         given:
         ConcurrentStack<String> cas = new ConcurrentStack<>()
+
         and: 'stack is empty'
         !cas.pop()
-        and:
+
+        and: 'latch to signalize end'
         CountDownLatch latch = new CountDownLatch(5)
+
+        and: 'task that increments counter 1000 times'
         Runnable task = {
             IntStream.range(0, 1000).forEach { ignore -> cas.push('a') }
             latch.countDown()
         }
+
+        and: 'executor service to run tasks'
         ExecutorService es = Executors.newCachedThreadPool()
 
         when: 'run concurrently'
@@ -29,18 +35,24 @@ class ConcurrentStackTest extends Specification {
         es.submit(task)
         es.submit(task)
         es.submit(task)
-        and:
+
+        and: 'wait for all tasks to end'
         latch.await()
+
+        and: 'shutdown executor service'
         es.shutdownNow()
-        and: 'drain the stack'
+
+        and: 'count the elements by draining the stack'
         int i = 0
-        while (cas.pop() == 'a') {
+        while (cas.pop() != null) {
             i++
         }
-        then: 'exactly 5000 elements'
-        i == 5000
-        and: 'stack is empty again'
+
+        then: 'stack is empty again'
         !cas.pop()
+
+        and: 'exactly 5000 elements'
+        i == 5000
     }
 
     def "pop is thread safe"() {
