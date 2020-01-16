@@ -10,6 +10,7 @@ import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
 class ConcurrentStackTest extends Specification {
+
     ConcurrentStack<Integer> stack = new ConcurrentStack<>()
 
     def 'push is thread safe'() {
