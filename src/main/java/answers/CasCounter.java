@@ -1,4 +1,4 @@
-package cas;
+package answers;
 
 public class CasCounter {
     private final SimulatedCAS value = new SimulatedCAS();

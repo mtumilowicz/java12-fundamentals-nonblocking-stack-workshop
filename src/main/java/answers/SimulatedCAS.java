@@ -1,4 +1,4 @@
-package cas;
+package answers;
 
 public class SimulatedCAS {
     private int value;

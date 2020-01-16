@@ -1,4 +1,4 @@
-package stack;
+package answers;
 
 import java.util.concurrent.atomic.AtomicReference;
 

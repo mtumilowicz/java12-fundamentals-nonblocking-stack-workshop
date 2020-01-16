@@ -1,6 +1,6 @@
-package stack
+package answers
 
-
+import answers.ConcurrentStack
 import spock.lang.Specification
 
 import java.util.concurrent.ConcurrentSkipListSet

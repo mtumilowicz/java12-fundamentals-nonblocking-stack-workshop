@@ -1,4 +1,4 @@
-package cas;
+package answers;
 
 public class NotThreadSafeCounter {
     private int value = 0;

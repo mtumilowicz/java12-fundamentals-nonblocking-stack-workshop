@@ -1,5 +1,6 @@
-package cas
+package answers
 
+import answers.NotThreadSafeCounter
 import spock.lang.Specification
 
 import java.util.concurrent.CountDownLatch
