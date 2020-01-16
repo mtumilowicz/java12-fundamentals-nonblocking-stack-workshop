@@ -8,7 +8,6 @@ public class NotThreadSafeCounter {
     }
 
     int increment() {
-        value = value + 1;
-        return value;
+        return ++value;
     }
 }
