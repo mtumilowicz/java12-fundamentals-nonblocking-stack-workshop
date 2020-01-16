@@ -1,6 +1,6 @@
 package answers;
 
-public class NotThreadSafeCounter {
+public class NotThreadSafeCounterAnswer {
     private int value = 0;
 
     int getValue() {

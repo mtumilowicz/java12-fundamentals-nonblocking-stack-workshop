@@ -1,6 +1,6 @@
 package answers
 
-import answers.ConcurrentStack
+
 import spock.lang.Specification
 
 import java.util.concurrent.ConcurrentSkipListSet
@@ -9,9 +9,9 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
-class ConcurrentStackTest extends Specification {
+class ConcurrentStackAnswerTest extends Specification {
 
-    ConcurrentStack<Integer> stack = new ConcurrentStack<>()
+    ConcurrentStackAnswer<Integer> stack = new ConcurrentStackAnswer<>()
 
     def 'push is thread safe'() {
         given: 'stack is empty'

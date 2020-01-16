@@ -1,6 +1,6 @@
 package answers
 
-import answers.CasCounter
+
 import spock.lang.Specification
 
 import java.util.concurrent.CountDownLatch
@@ -8,11 +8,11 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
-class CasCounterTest extends Specification {
+class CasCounterAnswerTest extends Specification {
 
     def 'increment is thread safe'() {
         given:
-        CasCounter counter = new CasCounter()
+        CasCounterAnswer counter = new CasCounterAnswer()
 
         and: 'counter is 0'
         counter.getValue() == 0

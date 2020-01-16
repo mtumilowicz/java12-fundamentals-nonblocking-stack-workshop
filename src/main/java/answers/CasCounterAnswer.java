@@ -1,6 +1,8 @@
 package answers;
 
-public class CasCounter {
+import cas.SimulatedCAS;
+
+public class CasCounterAnswer {
     private final SimulatedCAS value = new SimulatedCAS();
 
     public int getValue() {

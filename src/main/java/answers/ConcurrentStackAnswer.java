@@ -2,7 +2,7 @@ package answers;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ConcurrentStack<E> {
+public class ConcurrentStackAnswer<E> {
     AtomicReference<Node<E>> top = new AtomicReference<>();
 
     public void push(E item) {

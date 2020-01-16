@@ -1,6 +1,6 @@
 package answers
 
-import answers.NotThreadSafeCounter
+
 import spock.lang.Specification
 
 import java.util.concurrent.CountDownLatch
@@ -8,11 +8,11 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
-class NotThreadSafeCounterTest extends Specification {
+class NotThreadSafeCounterAnswerTest extends Specification {
 
     def 'increment is NOT thread safe'() {
         given:
-        NotThreadSafeCounter counter = new NotThreadSafeCounter()
+        NotThreadSafeCounterAnswer counter = new NotThreadSafeCounterAnswer()
 
         and: 'counter is 0'
         counter.getValue() == 0
