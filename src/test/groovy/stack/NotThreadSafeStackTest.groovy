@@ -1,6 +1,5 @@
 package stack
 
-
 import spock.lang.Specification
 
 import java.util.concurrent.ConcurrentSkipListSet
@@ -9,20 +8,24 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
-class ConcurrentStackTest extends Specification {
-    ConcurrentStack<Integer> stack = new ConcurrentStack<>()
+class NotThreadSafeStackTest extends Specification {
 
-    def 'push is thread safe'() {
+    ArrayDeque<Integer> stack = new ArrayDeque<>()
+
+    def 'push is NOT thread safe'() {
         given: 'stack is empty'
-        !stack.pop()
+        stack.size() == 0
 
         and: 'latch to signalize end'
         CountDownLatch latch = new CountDownLatch(5)
 
         and: 'task that increments counter 1000 times'
         Runnable task = {
-            IntStream.range(0, 1000).forEach { ignore -> stack.push(1) }
-            latch.countDown()
+            try {
+                IntStream.range(0, 1000).forEach { ignore -> stack.push(1) }
+            } finally {
+                latch.countDown()
+            }
         }
 
         and: 'executor service to run tasks'
@@ -41,33 +44,24 @@ class ConcurrentStackTest extends Specification {
         and: 'shutdown executor service'
         es.shutdownNow()
 
-        and: 'count the elements by draining the stack'
-        int i = 0
-        while (stack.pop() != null) {
-            i++
-        }
-
-        then: 'stack is empty again'
-        !stack.pop()
-
-        and: 'exactly 5000 elements'
-        i == 5000
+        then: 'unfortunately implementation was not thread safe'
+        stack.size() != 5000
     }
 
-    def 'pop is thread safe'() {
+    def 'poll is NOT thread safe'() {
         given: 'stack is empty'
-        !stack.pop()
+        stack.size() == 0
 
         and: 'latch to signalize end'
         CountDownLatch latch = new CountDownLatch(5)
 
-        and: 'concurrentSet for persisting stack elements'
-        ConcurrentSkipListSet<Integer> concurrentSet = new ConcurrentSkipListSet<>()
-
         and: 'task that pops 1000 elements from the stack and push to the concurrentSet'
         Runnable task = {
-            IntStream.range(0, 1000).forEach { ignore -> concurrentSet.add(stack.pop()) }
-            latch.countDown()
+            try {
+                IntStream.range(0, 1000).forEach { ignore -> stack.poll() }
+            } finally {
+                latch.countDown()
+            }
         }
 
         and: 'executor service to run tasks'
@@ -89,13 +83,7 @@ class ConcurrentStackTest extends Specification {
         and: 'shutdown executor service'
         es.shutdownNow()
 
-        then: 'stack is empty again'
-        stack.pop() == null
-
-        and: 'concurrentSet has all the elements from the stack'
-        def sorted = concurrentSet.sort()
-        sorted.removeAll(0..4999)
-        sorted.size() == 0
+        then: 'stack is NOT empty again'
+        stack.size() != 0
     }
-
 }
