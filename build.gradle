@@ -15,6 +15,7 @@ repositories {
 
 test {
     exclude '**/workshop*'
+    exclude '**/answers/NotThread*'
 }
 
 dependencies {
