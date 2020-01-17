@@ -6,25 +6,15 @@ class ConcurrentStackWorkshop<E> {
     AtomicReference<Node<E>> top = new AtomicReference<>();
 
     public void push(E item) {
-        Node<E> newHead = new Node<>(item);
-        Node<E> oldHead;
-        do {
-            oldHead = top.get();
-            newHead.next = oldHead;
-        } while (!top.compareAndSet(oldHead, newHead));
+        // newHead.next = oldHead
+        // compareAndSet(old, new)
     }
 
     public E pop() {
-        Node<E> oldHead;
-        Node<E> newHead;
-        do {
-            oldHead = top.get();
-            if (oldHead == null) {
-                return null;
-            }
-            newHead = oldHead.next;
-        } while (!top.compareAndSet(oldHead, newHead));
-        return oldHead.item;
+        // if empty - null
+        // newHead = oldHead.next
+        // compareAndSet
+        return null;
     }
 
     private static class Node<E> {
