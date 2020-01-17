@@ -1,6 +1,5 @@
 package answers
 
-
 import spock.lang.Specification
 
 import java.util.concurrent.CountDownLatch

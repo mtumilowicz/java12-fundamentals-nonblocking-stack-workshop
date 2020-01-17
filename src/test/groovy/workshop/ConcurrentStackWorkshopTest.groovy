@@ -1,6 +1,5 @@
 package workshop
 
-
 import spock.lang.Specification
 
 import java.util.concurrent.ConcurrentSkipListSet

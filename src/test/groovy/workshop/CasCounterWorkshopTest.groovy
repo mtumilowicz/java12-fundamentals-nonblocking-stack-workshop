@@ -1,6 +1,5 @@
 package workshop
 
-import answers.CasCounterAnswer
 import spock.lang.Specification
 
 import java.util.concurrent.CountDownLatch
