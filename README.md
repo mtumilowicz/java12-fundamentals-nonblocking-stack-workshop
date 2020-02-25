@@ -51,10 +51,7 @@ using CAS - only one wins
             * doing nothing may be a perfectly sensible - a failed CAS means that someone else already did the 
             work you were planning to do
 
-# concurrent stack
-* basic principle: for the algorithm is to only add something new to the stack once you know the item you are trying 
-to add is the only thing that has been added since you began the operation
-* compare-and-swap
+# ABA problem
 * https://en.wikipedia.org/wiki/ABA_problem
 
 # summary
