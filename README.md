@@ -10,6 +10,7 @@
     * https://en.wikipedia.org/wiki/Treiber_stack
     
 # preface
+* it may be worth to take a look here first: https://github.com/mtumilowicz/java-concurrency-compare-and-swap
 * the main goal of this workshops is to introduce compare-and-swap and show how it could be used in practice 
 (by implementing non-blocking and concurrent stack)
 * `answers` with correctly implemented `workshop` tasks are in `answers` package
